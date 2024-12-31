@@ -1,21 +1,20 @@
-"use client";
-import { useState, useEffect } from "react";
+'use client';
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FaStar } from "react-icons/fa";
 import { HiMinus, HiPlus } from "react-icons/hi";
-import Header2 from "../../components/header2";
 import { PiGreaterThanBold } from "react-icons/pi";
+import Header2 from "../../components/header2";
 import Image from "next/image";
+import { Link } from "lucide-react";
 
-export default function SingleProductPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+const SingleProductPage = ({ params }: { params: { id: string } }) => {
   const { id } = params; // Extract 'id' from params
   const [product, setProduct] = useState<any>(null); // To store the fetched product
   const [error, setError] = useState<string | null>(null); // To handle errors
+  const [quantity, setQuantity] = useState(1);
 
+  // Fetch product data
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -37,6 +36,27 @@ export default function SingleProductPage({
     fetchProduct();
   }, [id]);
 
+  // Add to cart function
+  const addToCart = (product: any, quantity: number) => {
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    const existingProductIndex = existingCart.findIndex(
+      (item: any) => item.id === product.id
+    );
+
+    if (existingProductIndex >= 0) {
+      existingCart[existingProductIndex].quantity += quantity;
+    } else {
+      existingCart.push({ ...product, quantity });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+  };
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -50,7 +70,7 @@ export default function SingleProductPage({
       <Header2 />
       <div className="max-w-screen-2xl mx-auto w-[1550px] h-[100] bg-white flex space-x-6">
         {/* Breadcrumb Navigation */}
-        <nav className="text-sm text-gray-500  flex">
+        <nav className="text-sm text-gray-500 flex">
           <a
             href="#"
             className="text-[##9F9F9F] flex items-center gap-8 ml-[85px] text-[16px] "
@@ -70,9 +90,9 @@ export default function SingleProductPage({
             alt="Icon"
             width={481}
             height={391}
-            className=" w-1 h-9 text-[#9F9F9F]"
+            className="w-1 h-9 text-[#9F9F9F]"
           />
-          <span className="text-black text-[16px] ">{product.name}</span>
+          <span className="text-black text-[16px]">{product.name}</span>
         </div>
       </div>
       <div>
@@ -82,28 +102,28 @@ export default function SingleProductPage({
           <div className="gap-4 mt-10 sm:mt-12 lg:mt-20 ml-6 sm:ml-12 lg:ml-24 space-y-6 sm:space-y-8 lg:space-y-10 w-full lg:w-[500px] overflow-visible flex lg:block justify-center">
             <Image
               src="/pro1.png"
-              alt="Thumbnail 1 - Asgaard sofa"
+              alt="Thumbnail 1"
               width={83}
               height={55}
               className="w-20 h-20 mt-8 xl:mt-0 bg-[#FFF9E5] rounded-[10px]"
             />
             <Image
               src="/pro2.png"
-              alt="Thumbnail 2 - Asgaard sofa"
+              alt="Thumbnail 2"
               width={83}
               height={55}
               className="w-20 h-20 bg-[#FFF9E5] rounded-[10px]"
             />
             <Image
               src="/pro3.png"
-              alt="Thumbnail 3 - Asgaard sofa"
+              alt="Thumbnail 3"
               width={83}
               height={55}
               className="w-20 h-20 bg-[#FFF9E5] rounded-[10px]"
             />
             <Image
               src="/pro4.png"
-              alt="Thumbnail 4 - Asgaard sofa"
+              alt="Thumbnail 4"
               width={83}
               height={55}
               className="w-20 h-20 bg-[#FFF9E5] rounded-[10px]"
@@ -128,7 +148,7 @@ export default function SingleProductPage({
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-black w-[300px]">
               {product.name}
             </h1>
-            <p className="text-lg sm:text-xl text-[#9F9F9F] mt-6    ">
+            <p className="text-lg sm:text-xl text-[#9F9F9F] mt-6">
               {product.price}
             </p>
 
@@ -203,26 +223,35 @@ export default function SingleProductPage({
                 <button
                   className="flex items-center justify-center p-2 text-black"
                   aria-label="Decrease Quantity"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 >
                   <HiMinus />
                 </button>
-                <span className="px-4">1</span>
+                <span className="px-4">{quantity}</span>
                 <button
                   className="flex items-center justify-center p-2 text-black"
                   aria-label="Increase Quantity"
+                  onClick={() => setQuantity(quantity + 1)}
                 >
                   <HiPlus />
                 </button>
               </div>
 
               {/* Add To Cart Button */}
-              <button className="px-4 py-2 bg-white hover:bg-[#000000] text-black border-2 border-black rounded-[10px]">
+              <a href="/Cart">
+              <button
+                onClick={handleAddToCart}
+                className="px-4 py-2 bg-white hover:bg-[#000000] text-black border-2 border-black rounded-[10px]"
+              >
                 <p className="text-black hover:text-white">Add To Cart</p>
               </button>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default SingleProductPage;
