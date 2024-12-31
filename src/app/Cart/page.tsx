@@ -4,6 +4,7 @@ import { AiFillDelete } from "react-icons/ai";
 import Image from "next/image";
 import { HiMinus, HiPlus } from "react-icons/hi";
 import Header2 from "../components/header2";
+import { PiGreaterThanBold } from "react-icons/pi";
 interface Product {
   id: number;
   name: string;
@@ -74,7 +75,7 @@ const Cart = () => {
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-black mb-6">Cart</h2>
           <p className="text-black text-sm flex items-center gap-x-2 mb-20">
             <span className="text-black text-lg font-semibold">Home</span>
-            <AiFillDelete className="text-black font-bold text-lg" />
+            <PiGreaterThanBold className="text-black font-bold text-lg" />
             <span className="text-lg">cart</span>
           </p>
         </div>

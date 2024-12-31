@@ -5,7 +5,7 @@ import { PiGreaterThanBold } from "react-icons/pi";
 import { BsFillGridFill } from "react-icons/bs";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Link } from "lucide-react";
+import Link from "next/link";
 
 interface Product {
   id: number;
@@ -127,7 +127,7 @@ const ProductPage = () => {
 {/* Product Data 1 */}
 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 container mx-auto text-center max-w-screen-2xl bg-white p-8">
   {products.map((product:Product ) => (
-    <a href={`/product/${product.id}`} key={product.id}>
+    <Link href={`/product/${product.id}`} key={product.id}>
     <div
       className="mx-auto transform hover:scale-[1.05] duration-500 hover:cursor-pointer"
     >
@@ -144,7 +144,7 @@ const ProductPage = () => {
         
       
     </div>
-    </a>
+    </Link>
   ))}
 
         
