@@ -1,3 +1,5 @@
+import { Link } from "lucide-react";
+
 export default function Footer() {
   return (
     <section className="bg-white max-w-screen-2xl mx-auto">
@@ -18,24 +20,24 @@ export default function Footer() {
           <h3 className="text-[#D9D9D9] font-bold mb-10">Links</h3>
           <ul className="space-y-12 font-semibold">
             <li>
-              <a href="" className="hover:underline md:text-[16px] xl:text-[18px]">
+              <Link href="" className="hover:underline md:text-[16px] xl:text-[18px]">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/product" className="hover:underline md:text-[16px] xl:text-[18px]">
+              <Link href="/product" className="hover:underline md:text-[16px] xl:text-[18px]">
                 Products
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/blogs" className="hover:underline md:text-[16px] xl:text-[18px]">
+              <Link href="/blogs" className="hover:underline md:text-[16px] xl:text-[18px]">
                Blog
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/contact" className="hover:underline md:text-[16px] xl:text-[18px]">
+              <Link href="/contact" className="hover:underline md:text-[16px] xl:text-[18px]">
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -45,19 +47,19 @@ export default function Footer() {
           <h3 className="text-[#D9D9D9] font-bold mb-10">Help</h3>
           <ul className="space-y-12 font-semibold">
             <li>
-              <a href="#" className="hover:underline md:text-[16px] xl:text-[18px]   ">
+              <Link href="#" className="hover:underline md:text-[16px] xl:text-[18px]   ">
                 Payment Options
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:underline md:text-[16px] xl:text-[18px]  ">
+              <Link href="#" className="hover:underline md:text-[16px] xl:text-[18px]  ">
                 Returns
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:underline md:text-[16px] xl:text-[18px]  ">
+              <Link href="#" className="hover:underline md:text-[16px] xl:text-[18px]  ">
                 Privacy Policies
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

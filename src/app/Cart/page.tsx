@@ -4,9 +4,15 @@ import { AiFillDelete } from "react-icons/ai";
 import Image from "next/image";
 import { HiMinus, HiPlus } from "react-icons/hi";
 import Header2 from "../components/header2";
-
+interface Product {
+  id: number;
+  name: string;
+  price: string;
+  image: string;
+  quantity: number; 
+}
 const Cart = () => {
-  const [cart, setCart] = useState<any[]>([]);
+  const [cart, setCart] = useState<Product[]>([]);
 
   useEffect(() => {
     // Get cart from localStorage on page load

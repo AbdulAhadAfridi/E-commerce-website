@@ -1,16 +1,25 @@
 'use client';
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { FaStar } from "react-icons/fa";
 import { HiMinus, HiPlus } from "react-icons/hi";
 import { PiGreaterThanBold } from "react-icons/pi";
 import Header2 from "../../components/header2";
 import Image from "next/image";
-import { Link } from "lucide-react";
+import { PageProps } from "../../../../.next/types/app/page";
 
-const SingleProductPage = ({ params }: { params: { id: string } }) => {
+type productDetailProps = PageProps & {
+  params: { id: string };
+};
+
+interface Product {
+  id: number;
+  name: string;
+  price: string;
+  image: string;
+}
+const SingleProductPage = ({ params }:productDetailProps ) => {
   const { id } = params; // Extract 'id' from params
-  const [product, setProduct] = useState<any>(null); // To store the fetched product
+  const [product, setProduct] = useState<Product | null>(null); // To store the fetched product
   const [error, setError] = useState<string | null>(null); // To handle errors
   const [quantity, setQuantity] = useState(1);
 
@@ -22,26 +31,28 @@ const SingleProductPage = ({ params }: { params: { id: string } }) => {
         const data = await response.json();
 
         // Find the product by ID
-        const productData = data.find((prod: any) => prod.id === parseInt(id));
+        const productData = data.find((prod: Product) => prod.id === parseInt(id));
         if (!productData) {
           setError("Product not found");
         } else {
           setProduct(productData);
         }
-      } catch (err) {
-        setError("Failed to fetch product");
+      } catch {
+      
       }
+
     };
 
     fetchProduct();
   }, [id]);
 
   // Add to cart function
-  const addToCart = (product: any, quantity: number) => {
+  
+  const addToCart = (product: Product, quantity: number) => {
     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
 
     const existingProductIndex = existingCart.findIndex(
-      (item: any) => item.id === product.id
+      (item:Product) => item.id === product.id
     );
 
     if (existingProductIndex >= 0) {
@@ -54,7 +65,7 @@ const SingleProductPage = ({ params }: { params: { id: string } }) => {
   };
 
   const handleAddToCart = () => {
-    addToCart(product, quantity);
+    addToCart(product as Product, quantity);
   };
 
   if (error) {
