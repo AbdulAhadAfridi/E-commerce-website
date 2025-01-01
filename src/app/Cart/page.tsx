@@ -5,13 +5,15 @@ import Image from "next/image";
 import { HiMinus, HiPlus } from "react-icons/hi";
 import Header2 from "../components/header2";
 import { PiGreaterThanBold } from "react-icons/pi";
+
 interface Product {
   id: number;
   name: string;
   price: string;
   image: string;
-  quantity: number; 
+  quantity: number;
 }
+
 const Cart = () => {
   const [cart, setCart] = useState<Product[]>([]);
 
@@ -20,7 +22,6 @@ const Cart = () => {
     const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCart(savedCart);
   }, []);
-  console.log();
 
   const handleRemoveItem = (productId: number) => {
     const updatedCart = cart.filter(item => item.id !== productId);
@@ -39,17 +40,16 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-   // Ensure that price and quantity are numbers
-   const calculateTotal = () => {
+  // Ensure that price and quantity are numbers
+  const calculateTotal = () => {
     return cart.reduce((total, item) => {
       const itemPrice = parseFloat(item.price); // Make sure price is a number
       if (!isNaN(itemPrice)) {
-        return total + itemPrice * item.quantity;  // Calculate total cost correctly
+        return total + itemPrice * item.quantity; // Calculate total cost correctly
       }
       return total;
     }, 0);
   };
-    
 
   return (
     <div>
@@ -81,9 +81,9 @@ const Cart = () => {
         </div>
       </section>
 
-      <div className="max-w-screen-2xl mx-auto w-full h-[525px] bg-white">
+      <div className="max-w-screen-2xl mx-auto w-full h-auto bg-white">
         <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <table className="w-full">
                 <thead>
@@ -144,7 +144,7 @@ const Cart = () => {
                 </div>
                 <button
                   type="button"
-                  className="ml-16 mt-16 w-[215px] h-[64px] text-[#000000] border-[1px] border-[#000000] py-2 px-4 rounded-[10px] hover:bg-black hover:text-white"
+                  className="w-full sm:w-[215px] mt-8 h-[64px] text-[#000000] border-[1px] border-[#000000] py-2 px-4 rounded-[10px] hover:bg-black hover:text-white"
                 >
                   Check Out
                 </button>

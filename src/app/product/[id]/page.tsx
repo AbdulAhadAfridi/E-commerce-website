@@ -6,9 +6,11 @@ import { PiGreaterThanBold } from "react-icons/pi";
 import Header2 from "../../components/header2";
 import Image from "next/image";
 import { PageProps } from "../../../../.next/types/app/page";
+import { use } from 'react'; // Import React.use() to handle promises
+import Link from "next/link";
 
 type productDetailProps = PageProps & {
-  params: { id: string };
+  params: Promise<{ id: string }>; // Ensure params is a Promise
 };
 
 interface Product {
@@ -17,8 +19,9 @@ interface Product {
   price: string;
   image: string;
 }
-const SingleProductPage = ({ params }:productDetailProps ) => {
-  const { id } = params; // Extract 'id' from params
+
+const SingleProductPage = ({ params }: productDetailProps) => {
+  const { id } = use(params); // Unwrap params using React.use() to access 'id'
   const [product, setProduct] = useState<Product | null>(null); // To store the fetched product
   const [error, setError] = useState<string | null>(null); // To handle errors
   const [quantity, setQuantity] = useState(1);
@@ -37,22 +40,22 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
         } else {
           setProduct(productData);
         }
-      } catch {
-      
+      } catch (err) {
+        setError("Error fetching product data");
       }
-
     };
 
-    fetchProduct();
+    if (id) {
+      fetchProduct();
+    }
   }, [id]);
 
   // Add to cart function
-  
   const addToCart = (product: Product, quantity: number) => {
     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
 
     const existingProductIndex = existingCart.findIndex(
-      (item:Product) => item.id === product.id
+      (item: Product) => item.id === product.id
     );
 
     if (existingProductIndex >= 0) {
@@ -65,7 +68,9 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   };
 
   const handleAddToCart = () => {
-    addToCart(product as Product, quantity);
+    if (product) {
+      addToCart(product, quantity);
+    }
   };
 
   if (error) {
@@ -82,18 +87,18 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
       <div className="max-w-screen-2xl mx-auto w-[1550px] h-[100] bg-white flex space-x-6">
         {/* Breadcrumb Navigation */}
         <nav className="text-sm text-gray-500 flex">
-          <a
+          <Link
             href="#"
             className="text-[##9F9F9F] flex items-center gap-8 ml-[85px] text-[16px] "
           >
             Home <PiGreaterThanBold className="text-black" />
-          </a>
-          <a
+          </Link>
+          <Link
             href="#"
             className="text-[##9F9F9F] flex items-center gap-8 ml-[25px] text-[16px]"
           >
             Shop <PiGreaterThanBold className="text-black" />
-          </a>
+          </Link>
         </nav>
         <div className="flex items-center gap-8">
           <Image
@@ -159,9 +164,9 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-black w-[300px]">
               {product.name}
             </h1>
-            <p className="text-lg sm:text-xl text-[#9F9F9F] mt-6">
+            <span className="text-lg sm:text-xl text-[#9F9F9F] mt-6">
               {product.price}
-            </p>
+            </span>
 
             {/* Rating and Review */}
             <div className="flex items-center mt-2">
@@ -172,7 +177,7 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
                 <FaStar />
                 <FaStar />
               </div>
-              <p className="text-sm sm:text-base text-gray-500 ml-2 flex items-center">
+              <span className="text-sm sm:text-base text-gray-500 ml-2 flex items-center">
                 <Image
                   src="/log3.png"
                   alt="Icon"
@@ -181,16 +186,16 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
                   className="w-0.5 h-8 text-[#9F9F9F] items-center mr-2"
                 />
                 (5 Customer Reviews)
-              </p>
+              </span>
             </div>
 
             {/* Product Description */}
-            <p className="text-black mt-4 text-sm sm:text-base md:text-lg">
+            <span className="text-black mt-4 text-sm sm:text-base md:text-lg">
               Setting the bar as one of the loudest speakers in its class, the
               Kilburn is a compact, stout-hearted hero with a well-balanced
               audio which boasts a clear midrange and extended highs for a
               sound.
-            </p>
+            </span>
 
             {/* Size Options */}
             <div className="mt-6">
@@ -250,12 +255,12 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
 
               {/* Add To Cart Button */}
               <a href="/Cart">
-              <button
-                onClick={handleAddToCart}
-                className="px-4 py-2 bg-white hover:bg-[#000000] text-black border-2 border-black rounded-[10px]"
-              >
-                <p className="text-black hover:text-white">Add To Cart</p>
-              </button>
+                <button
+                  onClick={handleAddToCart}
+                  className="px-4 py-2 bg-white hover:bg-[#000000] text-black border-2 border-black rounded-[10px]"
+                >
+                  <span className="text-black hover:text-white">Add To Cart</span>
+                </button>
               </a>
             </div>
           </div>
