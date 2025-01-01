@@ -22,6 +22,7 @@ const ProductPage = () => {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api/products'; // Use fallback URL for local development
       const response = await fetch(API_URL);
       const data = await response.json();
+      
       setProducts(data);
     };
     fetchProducts();
