@@ -27,8 +27,7 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api/products'; // Use fallback URL for local development
-      const response = await fetch(API_URL);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
       const data = await response.json();
         // Find the product by ID
         const productData = data.find((prod: Product) => prod.id === parseInt(id));
