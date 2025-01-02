@@ -28,20 +28,25 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        // Replace {id} with the actual id dynamically
         const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${id}`);
-      const data = await response.json();
-      console.log(data.id);
         
-
-      setProduct(data);
+        if (!response.ok) {
+          throw new Error("Failed to fetch product");
+        }
+  
+        const data = await response.json();
+        console.log("Fetched product:", data);
+        setProduct(data);
       } catch (error) {
         console.error("Error fetching product:", error);
         setError("Error fetching product");
-        }
+      }
     };
+  
     fetchProduct();
   }, [id]);
-
+  
   // Add to cart function
   
   const addToCart = (product: Product, quantity: number) => {
