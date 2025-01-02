@@ -31,19 +31,14 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
         const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${id}`);
       const data = await response.json();
       console.log(data.id);
-        // Find the product by ID
-        const productData = data.find((prod: Product) => prod.id === parseInt(id));
-        if (!productData) {
-          setError("Product not found");
-        } else {
-          setProduct(productData);
+        
+
+      setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        setError("Error fetching product");
         }
-      } catch {
-      
-      }
-
     };
-
     fetchProduct();
   }, [id]);
 
