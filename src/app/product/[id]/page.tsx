@@ -19,6 +19,7 @@ interface Product {
 }
 const SingleProductPage = ({ params }:productDetailProps ) => {
   const { id } = params; // Extract 'id' from params
+
   const [product, setProduct] = useState<Product | null>(null); // To store the fetched product
   const [error, setError] = useState<string | null>(null); // To handle errors
   const [quantity, setQuantity] = useState(1);
@@ -27,10 +28,8 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const productId = encodeURIComponent(id); // Ensure proper encoding
-      const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${productId}`);
+        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${id}`);
       const data = await response.json();
-
         // Find the product by ID
         const productData = data.find((prod: Product) => prod.id === parseInt(id));
         if (!productData) {
@@ -78,7 +77,9 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   }
 
   return (
+    
     <div>
+    
       <Header2 />
       <div className="max-w-screen-2xl mx-auto w-[1550px] h-[100] bg-white flex space-x-6">
         {/* Breadcrumb Navigation */}
