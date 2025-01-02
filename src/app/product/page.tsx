@@ -19,7 +19,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
+      const response = await fetch(`https://e-commerce-website.vercel.app/api/products`);
       const data = await response.json();
       setProducts(data);
     };
