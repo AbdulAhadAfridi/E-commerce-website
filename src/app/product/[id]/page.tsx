@@ -38,6 +38,8 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
           setProduct(productData);
         }
       } catch {
+        setError("Failed to fetch product");
+        
       
       }
 
@@ -73,7 +75,7 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   }
 
   if (!product) {
-    return <div></div>;
+    return <div>Loading...</div>;
   }
 
   return (
