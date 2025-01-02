@@ -27,7 +27,7 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products`);
+        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products${id}`);
         const data = await response.json();
         // Find the product by ID
         const productData = data.find((prod: Product) => prod.id === parseInt(id));
