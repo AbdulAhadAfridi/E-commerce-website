@@ -28,8 +28,9 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/{id}`);
+        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${id}`);
       const data = await response.json();
+      console.log(data.id);
         // Find the product by ID
         const productData = data.find((prod: Product) => prod.id === parseInt(id));
         if (!productData) {
@@ -79,7 +80,7 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   return (
     
     <div>
-      console.log(id)
+    
     
       <Header2 />
       <div className="max-w-screen-2xl mx-auto w-[1550px] h-[100] bg-white flex space-x-6">
