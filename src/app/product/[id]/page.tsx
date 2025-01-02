@@ -79,6 +79,7 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   return (
     
     <div>
+      console.log(id)
     
       <Header2 />
       <div className="max-w-screen-2xl mx-auto w-[1550px] h-[100] bg-white flex space-x-6">
