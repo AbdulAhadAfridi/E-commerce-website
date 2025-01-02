@@ -28,25 +28,24 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        // Replace {id} with the actual id dynamically
-        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${id}`);
-        
-        if (!response.ok) {
-          throw new Error("Failed to fetch product");
+        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/{id}`);
+      const data = await response.json();
+        // Find the product by ID
+        const productData = data.find((prod: Product) => prod.id === parseInt(id));
+        if (!productData) {
+          setError("Product not found");
+        } else {
+          setProduct(productData);
         }
-  
-        const data = await response.json();
-        console.log("Fetched product:", data);
-        setProduct(data);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        setError("Error fetching product");
+      } catch {
+      
       }
+
     };
-  
+
     fetchProduct();
   }, [id]);
-  
+
   // Add to cart function
   
   const addToCart = (product: Product, quantity: number) => {
@@ -74,7 +73,7 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
   }
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   return (
