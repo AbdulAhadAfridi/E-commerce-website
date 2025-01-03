@@ -5,6 +5,11 @@ import { PiGreaterThanBold } from "react-icons/pi";
 import Header2 from "../../components/header2";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { PageProps } from "../../../../.next/types/app/page";
+
+type productDetailProps = PageProps & {
+  params: { id: string };
+};
 
 interface Product {
   id: number;
@@ -13,7 +18,7 @@ interface Product {
   image: string;
 }
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default function ProductPage({ params }: productDetailProps) {
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -22,7 +27,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${params.id}`);
+        const response = await fetch(`http://localhost:3000/api/products/${params.id}`);
         
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
@@ -30,8 +35,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
         const data = await response.json();
         setProduct(data);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (error) {
+        setError((error as Error).message);
       }
     };
 

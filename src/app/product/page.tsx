@@ -19,7 +19,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products`);
+      const response = await fetch(`http://localhost:3000/api/products`);
       const data = await response.json();
       setProducts(data);
     };
