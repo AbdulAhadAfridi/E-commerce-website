@@ -27,7 +27,7 @@ export default function ProductPage({ params }: productDetailProps) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://e-commerce-website-taupe-phi.vercel.app/api/products/${params.id}`);
+        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${params.id}`);
         
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
