@@ -1,15 +1,10 @@
-'use client';
-import React, { useState, useEffect } from "react";
+"use client";
 import { FaStar } from "react-icons/fa";
 import { HiMinus, HiPlus } from "react-icons/hi";
 import { PiGreaterThanBold } from "react-icons/pi";
 import Header2 from "../../components/header2";
 import Image from "next/image";
-import { PageProps } from "../../../../.next/types/app/page";
-
-type productDetailProps = PageProps & {
-  params: { id: string };
-};
+import { useEffect, useState } from "react";
 
 interface Product {
   id: number;
@@ -17,37 +12,39 @@ interface Product {
   price: string;
   image: string;
 }
-const SingleProductPage = ({ params }:productDetailProps ) => {
-  const { id } = params; // Extract 'id' from params
 
-  const [product, setProduct] = useState<Product | null>(null); // To store the fetched product
-  const [error, setError] = useState<string | null>(null); // To handle errors
+export default function ProductPage({ params }: { params: { id: string } }) {
+  const [product, setProduct] = useState<Product | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
 
-  // Fetch product data
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${id}`);
-        const data = await response.json();
-        // Find the product by ID
-        const productData = data.find((prod: Product) => prod.id === parseInt(id));
-        if (!productData) {
-          setError("Product not found");
-        } else {
-          setProduct(productData);
-        }
-      } catch {
-        setError("Failed to fetch product");
+        const response = await fetch(`https://e-commerce-website-taupe-phi.vercel.app/api/products/${params.id}`);
         
-      
-      }
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
 
+        const data = await response.json();
+        setProduct(data);
+      } catch (error: any) {
+        setError(error.message);
+      }
     };
 
     fetchProduct();
-  }, [id]);
+  }, [params.id]);
 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
   // Add to cart function
   
   const addToCart = (product: Product, quantity: number) => {
@@ -70,16 +67,8 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
     addToCart(product as Product, quantity);
   };
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  if (!product) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    
+     
     <div>
     
     
@@ -268,6 +257,4 @@ const SingleProductPage = ({ params }:productDetailProps ) => {
       </div>
     </div>
   );
-};
-
-export default SingleProductPage;
+}
